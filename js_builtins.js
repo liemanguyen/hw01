@@ -24,6 +24,8 @@ builtins.trim = function(str) {
   for (let i = 0; i < str.length; i++) {
     if (str[i] !== " ") {
       newStr += str[i];
+    } else if (i < str.length - 1 && i > 0 && str[i - 1] !== " " && str[i + 1] !== " ") {
+      newStr += str[i];
     }
   }
   return newStr;
@@ -45,7 +47,7 @@ builtins.trim = function(str) {
 // ex. builtins.search('Horizons', 'h') -> false
 
 builtins.search = function(sourceString, searchString) {
-  if (searchString.indexOf(sourceString)) {
+  if (sourceString.indexOf(searchString) >= 0) {
     return true;
   } else {
     return false;
@@ -65,6 +67,9 @@ builtins.search = function(sourceString, searchString) {
 // ex. builtins.reverse([123]) -> [123]
 
 builtins.reverse = function(arr) {
-  let next = arr.unshift();
-  return builtins.reverse(arr).concat(next);
+  if (arr.length < 2) {
+    return arr;
+  }
+  let next = arr.slice(0, 1);
+  return builtins.reverse(arr.slice(1, arr.length)).concat(next);
 };
